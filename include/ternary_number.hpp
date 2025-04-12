@@ -14,6 +14,8 @@ public:
     explicit TernaryNumber();
     explicit TernaryNumber(std::string_view encoded);
 
+    auto operator==(const TernaryNumber<N>& rhs) const -> bool;
+
     auto operator-() const -> TernaryNumber<N>;
 
     auto operator+(const TernaryNumber<N>& rhs) const -> TernaryNumber<N>;
@@ -61,6 +63,11 @@ TernaryNumber<N>::TernaryNumber(std::string_view encoded) : value{Trit::ZERO} {
         std::next(value.begin(), N-length),
         tritFromEncoded
     );
+}
+
+template <size_t N>
+auto TernaryNumber<N>::operator==(const TernaryNumber<N>& rhs) const -> bool {
+    return value == rhs.value;
 }
 
 template <size_t N>
