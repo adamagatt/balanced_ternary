@@ -120,7 +120,7 @@ auto TernaryNumber<N>::operator-=(const TernaryNumber<N>& rhs) {
 
 template <size_t N>
 TernaryNumber<N>::operator int32_t() const {
-    int result = 0;
+    int32_t result = 0;
 
     for (auto val = 1, it = value.rbegin(); it != value.rend(); val*=3, ++it) {
         if (*it == Trit::POS) {
