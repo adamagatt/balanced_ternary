@@ -12,6 +12,8 @@ enum class Trit: int8_t {
 struct SumResult {
     Trit result{};
     Trit carry{};
+
+    auto operator==(const SumResult& rhs) const -> bool;
 };
 
 auto tritFromEncoded(char encoded) -> Trit;

@@ -1,5 +1,9 @@
 #include "trit.hpp"
 
+auto SumResult::operator==(const SumResult& rhs) const -> bool {
+    return result == rhs.result && carry == rhs.carry;
+}
+
 auto tritFromEncoded(char encoded) -> Trit {
     switch (encoded) {
         case '+':
