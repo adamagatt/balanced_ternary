@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <array>
 #include <ostream>
+#include <ranges>
 #include <string_view>
 
 #include "trit.hpp"
@@ -39,30 +40,25 @@ private:
 };
 
 template <size_t N>
-auto TernaryNumber<N>::operator-() const -> TernaryNumber<N> {
-    TernaryNumber<N> out;
-
-    std::transform(
-        value.begin(), value.end(),
-        out.value.begin(),
-        invertTrit
-    );
-
-    return out;
+TernaryNumber<N>::TernaryNumber() {
+    std::ranges::fill(value, Trit::ZERO);
 }
 
 template <size_t N>
-TernaryNumber<N>::TernaryNumber() : value{Trit::ZERO} { }
-
-template <size_t N>
-TernaryNumber<N>::TernaryNumber(std::string_view encoded) : value{Trit::ZERO} {
+TernaryNumber<N>::TernaryNumber(std::string_view encoded) {
     size_t length = std::min(N, encoded.size());
 
-    std::transform(
-        encoded.begin(), encoded.end(),
-        std::next(value.begin(), N-length),
-        tritFromEncoded
-    );
+    std::ranges::fill(value, Trit::ZERO);
+    std::ranges::transform(encoded, std::next(value.begin(), N-length), tritFromEncoded);
+}
+
+template <size_t N>
+auto TernaryNumber<N>::operator-() const -> TernaryNumber<N> {
+    TernaryNumber<N> out;
+
+    std::ranges::transform(value, out.value.begin(), invertTrit);
+
+    return out;
 }
 
 template <size_t N>
@@ -78,9 +74,9 @@ auto TernaryNumber<N>::operator+(const TernaryNumber<N>& rhs) const -> TernaryNu
 
     // Ideally a scan operation but none currently exist that allow for
     // two input collections to be zipped together
-    std::transform(
-        value.rbegin(), value.rend(),
-        rhs.value.rbegin(),
+    std::ranges::transform(
+        value | std::views::reverse,
+        rhs.value | std::views::reverse,
         out.value.rbegin(),
         [&sumResult](const Trit& lhs, const Trit& rhs) {
             sumResult = addTrits(lhs, rhs, sumResult.carry);
@@ -97,9 +93,9 @@ auto TernaryNumber<N>::operator+=(const TernaryNumber<N>& rhs) {
 
     // Ideally a scan operation but none currently exist that allow for
     // two input collections to be zipped together
-    std::transform(
-        value.rbegin(), value.rend(),
-        rhs.value.rbegin(),
+    std::ranges::transform(
+        value | std::views::reverse,
+        rhs.value | std::views::reverse,
         value.rbegin(),
         [&sumResult](const Trit& lhs, const Trit& rhs) {
             sumResult = addTrits(lhs, rhs, sumResult.carry);
