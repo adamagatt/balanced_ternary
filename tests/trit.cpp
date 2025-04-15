@@ -20,16 +20,16 @@ TEST(Trit, AddTwoNegResultsInCarry) {
     ASSERT_EQ(result, expected);
 }
 
-TEST(Trit, PosIsInverseOfNeg) {
-    ASSERT_EQ(invertTrit(Trit::POS), Trit::NEG);
-    ASSERT_EQ(invertTrit(Trit::NEG), Trit::POS);
+TEST(Trit, PosIsOppositeOfNeg) {
+    ASSERT_EQ(negateTrit(Trit::POS), Trit::NEG);
+    ASSERT_EQ(negateTrit(Trit::NEG), Trit::POS);
 }
 
-TEST(Trit, ZeroIsOwnInverse) {
-    ASSERT_EQ(invertTrit(Trit::ZERO), Trit::ZERO);
+TEST(Trit, ZeroIsOwnNegative) {
+    ASSERT_EQ(negateTrit(Trit::ZERO), Trit::ZERO);
 }
 
-TEST(Trit, DoubleInverseHasNoChange) {
-    ASSERT_EQ(invertTrit(invertTrit(Trit::POS)), Trit::POS);
-    ASSERT_EQ(invertTrit(invertTrit(Trit::NEG)), Trit::NEG);
+TEST(Trit, DoubleNegationHasNoChange) {
+    ASSERT_EQ(negateTrit(negateTrit(Trit::POS)), Trit::POS);
+    ASSERT_EQ(negateTrit(negateTrit(Trit::NEG)), Trit::NEG);
 }

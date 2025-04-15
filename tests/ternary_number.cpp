@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
-
-#include <sstream>
 #include "ternary_number.hpp"
 
-TEST(TernaryNumber, Output) {
+#include <sstream>
+
+TEST(TernaryNumber, OutputRepresentation) {
     TernaryNumber<8> num_50 {"+-0--"}; // 50
     
     std::stringstream repr;
@@ -12,7 +12,7 @@ TEST(TernaryNumber, Output) {
     ASSERT_EQ(repr.str(), "000+-0-- (50)");
 }
 
-TEST (TernaryNumber, Inverse) {
+TEST (TernaryNumber, UnaryNegation) {
     TernaryNumber<8> num_35{"++0-"}; // 35
     EXPECT_EQ(-num_35, TernaryNumber<8>{"--0+"}); // Negation is -35
     ASSERT_EQ(-(-num_35), TernaryNumber<8>{"++0-"}); // Double negation is 35
@@ -28,9 +28,12 @@ TEST (TernaryNumber, LeftShift) {
     EXPECT_EQ(num_neg_8 << 5, TernaryNumber<8>{"-0+00000"});
     EXPECT_EQ(num_neg_8 << 6, TernaryNumber<8>{"0+000000"});
     EXPECT_EQ(num_neg_8 << 7, TernaryNumber<8>{"+0000000"});
-    EXPECT_EQ(num_neg_8 << 8, TernaryNumber<8>{"00000000"});
+    ASSERT_EQ(num_neg_8 << 8, TernaryNumber<8>{"00000000"});
+}
 
-    auto shifting_num = num_neg_8;
+TEST (TernaryNumber, InPlaceLeftShift) {
+    TernaryNumber<8> shifting_num{"-0+"}; // -8
+    
     shifting_num <<= 1;
     EXPECT_EQ(shifting_num, TernaryNumber<8>{"0000-0+0"});
     shifting_num <<= 1;
@@ -56,7 +59,5 @@ TEST(TernaryNumber, BinaryOperations) {
     EXPECT_EQ(num_23 + num_33, TernaryNumber<8>{"+-0+-"}); // Sum to 56
     EXPECT_EQ(num_23 - num_33, TernaryNumber<8>{"-0-"}); // Difference is -10
     EXPECT_EQ(num_33 - num_23, TernaryNumber<8>{"+0+"}); // Difference is 10
-    EXPECT_EQ(num_23 * num_33, TernaryNumber<8>{"+00+0+0"}); // Product is 759
-
-    SUCCEED();
+    ASSERT_EQ(num_23 * num_33, TernaryNumber<8>{"+00+0+0"}); // Product is 759
 }

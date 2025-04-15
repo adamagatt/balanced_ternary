@@ -15,7 +15,7 @@ auto tritFromEncoded(char encoded) -> Trit {
     }
 }
 
-auto invertTrit(const Trit& trit) -> Trit {
+auto negateTrit(const Trit& trit) -> Trit {
     switch (trit) {
         case Trit::POS:
             return Trit::NEG;
@@ -27,31 +27,40 @@ auto invertTrit(const Trit& trit) -> Trit {
 }
 
 auto addTrits(const Trit& t1, const Trit& t2) -> SumResult {
+    // If either trit is zero the sum is just the other trit
     if (t1 == Trit::ZERO) {
         return {t2, Trit::ZERO};
     } else if (t2 == Trit::ZERO) {
         return {t1, Trit::ZERO};
-    } else if (t1 == invertTrit(t2)) {
+    } else if (t1 == negateTrit(t2)) {
+        // If one trit is the negation of the other the sum is zero
         return {Trit::ZERO, Trit::ZERO};
-    } else { // Both Trits are the same
-        return {invertTrit(t1), t1}; // Carry trit is needed
+    } else {
+        // If both Trits are the same we need a carry trit
+        return {negateTrit(t1), t1};
     }
 }
 
-auto addTrits(const Trit& t1, const Trit& t2, const Trit& t3) -> SumResult {
+auto addTrits(const Trit& t1, const Trit& t2, const Trit& carry) -> SumResult {
+    // If any trit is zero we can reduce to the binary sum
     if (t1 == Trit::ZERO) {
-        return addTrits(t2, t3);
+        return addTrits(t2, carry);
     } else if (t2 == Trit::ZERO) {
-        return addTrits(t1, t3);
-    } else if (t3 == Trit::ZERO) {
+        return addTrits(t1, carry);
+    } else if (carry == Trit::ZERO) {
         return addTrits(t1, t2);
-    } else if (invertTrit(t1) == t2) {
-        return {t3, Trit::ZERO};
-    } else if (invertTrit(t1) == t3) {
-        return {t2, Trit::ZERO};
-    } else if (invertTrit(t2) == t3) {
-        return {t1, Trit::ZERO};
-    } else { // All three trits are the same
-        return {Trit::ZERO, t1};
     }
+    
+    // If any two trits negate each other the remaining trit is the reuslt
+    if (negateTrit(t1) == t2) {
+        return {carry, Trit::ZERO};
+    } else if (negateTrit(t1) == carry) {
+        return {t2, Trit::ZERO};
+    } else if (negateTrit(t2) == carry) {
+        return {t1, Trit::ZERO};
+    }
+    
+    // Else all three trits are the same, so the result is zero with a
+    // carry trit
+    return {Trit::ZERO, t1};
 }
