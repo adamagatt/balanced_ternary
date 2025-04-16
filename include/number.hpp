@@ -161,8 +161,11 @@ public:
     friend auto operator<<(std::ostream& os, const Number<M>& rhs) -> std::ostream&;
 
 private:
-    // A balanced ternary number is a fixed-length sequence of trits
-    std::array<Trit, N> value;
+    // A balanced ternary number is a fixed-length sequence of trits. The
+    // empty Uniform Initialisation Syntax {} will result in std::array being
+    // value-initialised, which will value-initialise all individual elements.
+    // For the Trit type this will set them to 0, which is Trit::ZERO.
+    std::array<Trit, N> value{};
 };
 
 // As a fully templated class we can't use a separate translation unit

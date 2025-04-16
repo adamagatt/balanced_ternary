@@ -6,15 +6,12 @@
 #endif
 
 template <size_t N>
-BT::Number<N>::Number() {
-    std::ranges::fill(value, Trit::ZERO);
-}
+BT::Number<N>::Number() { }
 
 template <size_t N>
 BT::Number<N>::Number(std::string_view encoded) {
     size_t length = std::min(N, encoded.size());
 
-    std::ranges::fill(value, Trit::ZERO);
     std::ranges::transform(encoded, std::next(value.begin(), N-length), tritFromEncoded);
 }
 
