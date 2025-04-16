@@ -3,6 +3,8 @@
 
 #include <cstdint>
 
+namespace BT {
+
 /**
  * In balanced ternary a "trit" is a three-value digit that can have
  * a value of -1, 0 or 1.
@@ -75,5 +77,7 @@ auto addTrits(const Trit& t1, const Trit& t2) -> SumResult;
  * @return The result and carry for adding the three trits
  */
 auto addTrits(const Trit& t1, const Trit& t2, const Trit& carry) -> SumResult;
+
+}
 
 #endif

@@ -3,33 +3,33 @@
 #include "trit.hpp"
 
 TEST(Trit, PosAndNegCancelOut) {
-    auto result = addTrits(Trit::POS, Trit::NEG);
-    SumResult expected{.result = Trit::ZERO, .carry = Trit::ZERO};
+    auto result = BT::addTrits(BT::Trit::POS, BT::Trit::NEG);
+    BT::SumResult expected{.result = BT::Trit::ZERO, .carry = BT::Trit::ZERO};
     ASSERT_EQ(result, expected);
 }
 
 TEST(Trit, AddTwoPosResultsInCarry) {
-    auto result = addTrits(Trit::POS, Trit::POS);
-    SumResult expected{.result = Trit::NEG, .carry = Trit::POS};
+    auto result = BT::addTrits(BT::Trit::POS, BT::Trit::POS);
+    BT::SumResult expected{.result = BT::Trit::NEG, .carry = BT::Trit::POS};
     ASSERT_EQ(result, expected);
 }
 
 TEST(Trit, AddTwoNegResultsInCarry) {
-    auto result = addTrits(Trit::NEG, Trit::NEG);
-    SumResult expected{.result = Trit::POS, .carry = Trit::NEG};
+    auto result = BT::addTrits(BT::Trit::NEG, BT::Trit::NEG);
+    BT::SumResult expected{.result = BT::Trit::POS, .carry = BT::Trit::NEG};
     ASSERT_EQ(result, expected);
 }
 
 TEST(Trit, PosIsOppositeOfNeg) {
-    ASSERT_EQ(negateTrit(Trit::POS), Trit::NEG);
-    ASSERT_EQ(negateTrit(Trit::NEG), Trit::POS);
+    ASSERT_EQ(BT::negateTrit(BT::Trit::POS), BT::Trit::NEG);
+    ASSERT_EQ(BT::negateTrit(BT::Trit::NEG), BT::Trit::POS);
 }
 
 TEST(Trit, ZeroIsOwnNegative) {
-    ASSERT_EQ(negateTrit(Trit::ZERO), Trit::ZERO);
+    ASSERT_EQ(BT::negateTrit(BT::Trit::ZERO), BT::Trit::ZERO);
 }
 
 TEST(Trit, DoubleNegationHasNoChange) {
-    ASSERT_EQ(negateTrit(negateTrit(Trit::POS)), Trit::POS);
-    ASSERT_EQ(negateTrit(negateTrit(Trit::NEG)), Trit::NEG);
+    ASSERT_EQ(BT::negateTrit(negateTrit(BT::Trit::POS)), BT::Trit::POS);
+    ASSERT_EQ(BT::negateTrit(negateTrit(BT::Trit::NEG)), BT::Trit::NEG);
 }

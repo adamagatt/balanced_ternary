@@ -16,7 +16,7 @@ add_executable(BalancedTernary
     src/trit.cpp    
 
     tests/trit.cpp
-    tests/ternary_number.cpp
+    tests/number.cpp
 )
 
 target_include_directories(BalancedTernary PRIVATE include)

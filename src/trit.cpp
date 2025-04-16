@@ -1,10 +1,10 @@
 #include "trit.hpp"
 
-auto SumResult::operator==(const SumResult& rhs) const -> bool {
+auto BT::SumResult::operator==(const SumResult& rhs) const -> bool {
     return result == rhs.result && carry == rhs.carry;
 }
 
-auto tritFromEncoded(char encoded) -> Trit {
+auto BT::tritFromEncoded(char encoded) -> Trit {
     switch (encoded) {
         case '+':
             return Trit::POS;
@@ -15,7 +15,7 @@ auto tritFromEncoded(char encoded) -> Trit {
     }
 }
 
-auto negateTrit(const Trit& trit) -> Trit {
+auto BT::negateTrit(const Trit& trit) -> Trit {
     switch (trit) {
         case Trit::POS:
             return Trit::NEG;
@@ -26,7 +26,7 @@ auto negateTrit(const Trit& trit) -> Trit {
     return Trit::ZERO;
 }
 
-auto addTrits(const Trit& t1, const Trit& t2) -> SumResult {
+auto BT::addTrits(const Trit& t1, const Trit& t2) -> SumResult {
     // If either trit is zero the sum is just the other trit
     if (t1 == Trit::ZERO) {
         return {t2, Trit::ZERO};
@@ -41,7 +41,7 @@ auto addTrits(const Trit& t1, const Trit& t2) -> SumResult {
     }
 }
 
-auto addTrits(const Trit& t1, const Trit& t2, const Trit& carry) -> SumResult {
+auto BT::addTrits(const Trit& t1, const Trit& t2, const Trit& carry) -> SumResult {
     // If any trit is zero we can reduce to the binary sum
     if (t1 == Trit::ZERO) {
         return addTrits(t2, carry);

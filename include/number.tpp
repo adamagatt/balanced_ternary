@@ -1,17 +1,17 @@
-#ifndef _BALANCED_TERNARY_TPP_
-#define _BALANCED_TERNARY_TPP_
+#ifndef _NUMBER_TPP_
+#define _NUMBER_TPP
 
-#ifndef _BALANCED_TERNARY_HPP_
-#error __FILE__ should only be included from ternary_number.hpp
+#ifndef _NUMBER_HPP_
+#error __FILE__ should only be included from number.hpp
 #endif
 
 template <size_t N>
-TernaryNumber<N>::TernaryNumber() {
+BT::Number<N>::Number() {
     std::ranges::fill(value, Trit::ZERO);
 }
 
 template <size_t N>
-TernaryNumber<N>::TernaryNumber(std::string_view encoded) {
+BT::Number<N>::Number(std::string_view encoded) {
     size_t length = std::min(N, encoded.size());
 
     std::ranges::fill(value, Trit::ZERO);
@@ -19,13 +19,13 @@ TernaryNumber<N>::TernaryNumber(std::string_view encoded) {
 }
 
 template <size_t N>
-auto TernaryNumber<N>::operator==(const TernaryNumber<N>& rhs) const -> bool {
+auto BT::Number<N>::operator==(const Number<N>& rhs) const -> bool {
     return value == rhs.value;
 }
 
 template <size_t N>
-auto TernaryNumber<N>::operator-() const -> TernaryNumber<N> {
-    TernaryNumber<N> out;
+auto BT::Number<N>::operator-() const -> Number<N> {
+    Number<N> out;
 
     std::ranges::transform(value, out.value.begin(), negateTrit);
 
@@ -33,8 +33,8 @@ auto TernaryNumber<N>::operator-() const -> TernaryNumber<N> {
 }
 
 template <size_t N>
-auto TernaryNumber<N>::operator+(const TernaryNumber<N>& rhs) const -> TernaryNumber<N> {
-    TernaryNumber<N> out;
+auto BT::Number<N>::operator+(const Number<N>& rhs) const -> Number<N> {
+    Number<N> out;
     
     SumResult sumResult{};
 
@@ -54,7 +54,7 @@ auto TernaryNumber<N>::operator+(const TernaryNumber<N>& rhs) const -> TernaryNu
 }
 
 template <size_t N>
-auto TernaryNumber<N>::operator+=(const TernaryNumber<N>& rhs) {
+auto BT::Number<N>::operator+=(const Number<N>& rhs) {
     SumResult sumResult{};
 
     // Ideally a scan operation but none currently exist that allow for
@@ -71,18 +71,18 @@ auto TernaryNumber<N>::operator+=(const TernaryNumber<N>& rhs) {
 }
 
 template <size_t N>
-auto TernaryNumber<N>::operator-(const TernaryNumber<N>& rhs) const -> TernaryNumber<N> {
+auto BT::Number<N>::operator-(const Number<N>& rhs) const -> Number<N> {
     return *this + (-rhs);
 }
 
 template <size_t N>
-auto TernaryNumber<N>::operator-=(const TernaryNumber<N>& rhs) {
+auto BT::Number<N>::operator-=(const Number<N>& rhs) {
     *this += (-rhs);
 }
 
 template <size_t N>
-auto TernaryNumber<N>::operator*(const TernaryNumber<N>& rhs) const -> TernaryNumber<N> {
-    TernaryNumber<N> out;
+auto BT::Number<N>::operator*(const Number<N>& rhs) const -> Number<N> {
+    Number<N> out;
 
     for (auto it = value.rbegin(), rhs_shifted = rhs; it != value.rend(); ++it, rhs_shifted <<= 1) {
         if (*it == Trit::POS) {
@@ -96,12 +96,12 @@ auto TernaryNumber<N>::operator*(const TernaryNumber<N>& rhs) const -> TernaryNu
 }
 
 template <size_t N>
-auto TernaryNumber<N>::operator<<(size_t positions) const -> TernaryNumber<N> {
+auto BT::Number<N>::operator<<(size_t positions) const -> Number<N> {
     if (positions >= N) {
-        return TernaryNumber<N>();
+        return Number<N>();
     }
 
-    TernaryNumber<N> out;
+    Number<N> out;
 
     std::copy(
         std::next(value.begin(), positions), value.end(),
@@ -112,7 +112,7 @@ auto TernaryNumber<N>::operator<<(size_t positions) const -> TernaryNumber<N> {
 }
 
 template <size_t N>
-auto TernaryNumber<N>::operator<<=(size_t positions) {
+auto BT::Number<N>::operator<<=(size_t positions) {
     if (positions >= N) {
         std::fill(value.begin(), value.end(), Trit::ZERO);
         return;
@@ -123,7 +123,7 @@ auto TernaryNumber<N>::operator<<=(size_t positions) {
 }
 
 template <size_t N>
-TernaryNumber<N>::operator int32_t() const {
+BT::Number<N>::operator int32_t() const {
     int32_t result = 0;
 
     for (auto val = 1, it = value.rbegin(); it != value.rend(); val*=3, ++it) {
@@ -138,11 +138,11 @@ TernaryNumber<N>::operator int32_t() const {
 }
 
 template <size_t M>
-std::ostream& operator<<(std::ostream& os, const TernaryNumber<M>& rhs) {
-    for (Trit trit : rhs.value) {
-        if (trit == Trit::POS) {
+auto operator<<(std::ostream& os, const BT::Number<M>& rhs) -> std::ostream& {
+    for (BT::Trit trit : rhs.value) {
+        if (trit == BT::Trit::POS) {
             os << '+';
-        } else if (trit == Trit::NEG) {
+        } else if (trit == BT::Trit::NEG) {
             os << '-';
         } else {
             os << '0';

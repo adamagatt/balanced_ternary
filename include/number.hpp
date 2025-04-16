@@ -1,5 +1,5 @@
-#ifndef _BALANCED_TERNARY_HPP_
-#define _BALANCED_TERNARY_HPP_
+#ifndef _NUMBER_HPP_
+#define _NUMBER_HPP_
 
 #include <algorithm>
 #include <array>
@@ -8,6 +8,8 @@
 #include <string_view>
 
 #include "trit.hpp"
+
+namespace BT {
 
 /**
  * A number in ternary is an array of trit values, similar to how a binary
@@ -21,12 +23,12 @@
  * @tparam N The number of trits to use in the number.
  */
 template <size_t N>
-class TernaryNumber {
+class Number {
 public:
     /**
      * Construct a new Ternary Number, defaulting to a value of zero.
      */
-    TernaryNumber();
+    Number();
 
     /**
      * Construct a new Ternary Number with a value provided in the
@@ -39,7 +41,7 @@ public:
      * number with, where '-' represents -1, '+' represents +1 and '0'
      * represents zero.
      */
-    explicit TernaryNumber(std::string_view encoded);
+    explicit Number(std::string_view encoded);
 
     /**
      * Determines if the submitted ternary number has the same value.
@@ -47,7 +49,7 @@ public:
      * @param rhs Another ternary number to compare against.
      * @return true if the supplied number has the same value, false otherwise
      */
-    auto operator==(const TernaryNumber<N>& rhs) const -> bool;
+    auto operator==(const Number<N>& rhs) const -> bool;
 
     /**
      * Unary negation of the ternary number, where every trit simply has
@@ -55,7 +57,7 @@ public:
      * 
      * @return The unary negation of this ternary number 
      */
-    auto operator-() const -> TernaryNumber<N>;
+    auto operator-() const -> Number<N>;
 
     /**
      * Sum this ternary number against another that has been provided. This
@@ -66,7 +68,7 @@ public:
      * @return the result of adding this ternary number to the submitted
      * number.
      */
-    auto operator+(const TernaryNumber<N>& rhs) const -> TernaryNumber<N>;
+    auto operator+(const Number<N>& rhs) const -> Number<N>;
 
     /**
      * In-place addition of another ternary number into this one, modifying
@@ -76,7 +78,7 @@ public:
      * 
      * @param rhs The number to add into this number
      */
-    auto operator+=(const TernaryNumber<N>& rhs);
+    auto operator+=(const Number<N>& rhs);
     
     /**
      * Return the result of subtracting another ternary number from this one.
@@ -88,7 +90,7 @@ public:
      * @return the result of subtracting the submitted ternary number from
      * this one.
      */
-    auto operator-(const TernaryNumber<N>& rhs) const -> TernaryNumber<N>;
+    auto operator-(const Number<N>& rhs) const -> Number<N>;
 
     /**
      * In-place subtraction of another ternary number from this one, modifying
@@ -98,7 +100,7 @@ public:
      * 
      * @param rhs The number to subtract from this number
      */
-    auto operator-=(const TernaryNumber<N>& rhs);
+    auto operator-=(const Number<N>& rhs);
     
     /**
      * Calculate the product of this ternary number multiplied with another
@@ -109,7 +111,7 @@ public:
      * @param rhs The number to multiply this number with
      * @return the product of this ternary number and the submitted number.
      */
-    auto operator*(const TernaryNumber<N>& rhs) const -> TernaryNumber<N>;
+    auto operator*(const Number<N>& rhs) const -> Number<N>;
     
     /**
      * Return the result of left-shifting this number by a specified amount
@@ -123,7 +125,7 @@ public:
      * @return The result of left-shifting this number by the specified number
      * of trit positions.
      */
-    auto operator<<(size_t positions) const -> TernaryNumber<N>;
+    auto operator<<(size_t positions) const -> Number<N>;
 
     /**
      * In-place left-shift operation of this number by a specified amount
@@ -156,7 +158,7 @@ public:
      * @return std::ostream& The output stream again, for operation chaining
      */
     template <size_t M>
-    friend std::ostream& operator<<(std::ostream& os, const TernaryNumber<M>& rhs);
+    friend auto operator<<(std::ostream& os, const Number<M>& rhs) -> std::ostream&;
 
 private:
     // A balanced ternary number is a fixed-length sequence of trits
@@ -169,6 +171,8 @@ private:
 // in this file and make it hundreds of lines, or we can use a seperate
 // template-implmentation file (often .tpp or .ipp) and simply include it
 // at this point.
-#include "ternary_number.tpp"
+#include "number.tpp"
+
+}
 
 #endif
