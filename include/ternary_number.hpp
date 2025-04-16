@@ -67,22 +67,99 @@ public:
      * number.
      */
     auto operator+(const TernaryNumber<N>& rhs) const -> TernaryNumber<N>;
+
+    /**
+     * In-place addition of another ternary number into this one, modifying
+     * this number rather than returning the sum. This may currently result
+     * in an overflow if the sum of the two numbers requires a length that
+     * is greater than the templated size N.
+     * 
+     * @param rhs The number to add into this number
+     */
     auto operator+=(const TernaryNumber<N>& rhs);
     
+    /**
+     * Return the result of subtracting another ternary number from this one.
+     * This may currently result in an underflow if the result of the
+     * subtraction requires a length that is greater than the templated size
+     * N.
+     * 
+     * @param rhs The number to subtract from this one
+     * @return the result of subtracting the submitted ternary number from
+     * this one.
+     */
     auto operator-(const TernaryNumber<N>& rhs) const -> TernaryNumber<N>;
+
+    /**
+     * In-place subtraction of another ternary number from this one, modifying
+     * this number rather than returning the difference. This may currently
+     * result in an underflow if the difference of the two numbers requires a
+     * length that is greater than the templated size N.
+     * 
+     * @param rhs The number to subtract from this number
+     */
     auto operator-=(const TernaryNumber<N>& rhs);
     
+    /**
+     * Calculate the product of this ternary number multiplied with another
+     * that has been provided. This may currently result in an overflow or
+     * underflow if the product of the two numbers requires a length that is
+     * greater than the templated size N.
+     * 
+     * @param rhs The number to multiply this number with
+     * @return the product of this ternary number and the submitted number.
+     */
     auto operator*(const TernaryNumber<N>& rhs) const -> TernaryNumber<N>;
     
+    /**
+     * Return the result of left-shifting this number by a specified amount
+     * of trit positions. As each trit is explicitly signed this operation
+     * is always a signed shift. This has the usual effect of multiplying the
+     * number by 3. An over- or under-flow can occur if a non-zero most
+     * significant trit is shifted, and this can potentially change the sign
+     * of the result.
+     *  
+     * @param positions The amount of trits to shift the number by
+     * @return The result of left-shifting this number by the specified number
+     * of trit positions.
+     */
     auto operator<<(size_t positions) const -> TernaryNumber<N>;
+
+    /**
+     * In-place left-shift operation of this number by a specified amount
+     * of trit positions. As each trit is explicitly signed this operation
+     * is always a signed shift. This has the usual effect of multiplying the
+     * number by 3. An over- or under-flow can occur if a non-zero most
+     * significant trit is shifted, and this can potentially change the sign
+     * of this number.
+     *  
+     * @param positions The amount of trits to shift this number by
+     */  
     auto operator<<=(size_t positions);
 
+    /**
+     * The value of this number in traditional signed 32-bit representation.
+     * 
+     * @return This number in signed 32-bit representation
+     */
     explicit operator int32_t() const;
 
+    /**
+     * Render a representation of this number to an output stream. This will
+     * take the form of the number as an encoded sequence (using "-", "0" and
+     * "+" characters), followed by its numerical value in brackets.
+     * 
+     * @tparam M Parameter required for a friend function implemented for a
+     * templated class, named differently from N solely to prevent shadowing.
+     * @param os The output stream to render this number's representation to
+     * @param rhs The balanced ternary number to render to the output stream
+     * @return std::ostream& The output stream again, for operation chaining
+     */
     template <size_t M>
     friend std::ostream& operator<<(std::ostream& os, const TernaryNumber<M>& rhs);
 
 private:
+    // A balanced ternary number is a fixed-length sequence of trits
     std::array<Trit, N> value;
 };
 
