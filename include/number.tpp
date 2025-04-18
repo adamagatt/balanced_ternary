@@ -132,6 +132,17 @@ auto BT::Number<N>::operator*(const Number<N>& rhs) const -> Number<N> {
 }
 
 template <size_t N>
+auto BT::Number<N>::operator*=(const Number<N>& rhs) {
+    // Based on the shift-and-add approach to multiplication I don't see an
+    // obvious way to do a more efficient in-place multiplication operator.
+    // We need a third spare variable to build the complete result and then
+    // copy it into our own array, or otherwise we make a copy of our own 
+    // array before zeroing it out and perform the shift-and-add in-place
+    // on that array.
+    *this = (*this * rhs);
+}
+
+template <size_t N>
 auto BT::Number<N>::operator<<(size_t positions) const -> Number<N> {
     // Early exit if we left-shift far enough that our number just becomes zero
     if (positions >= N) {

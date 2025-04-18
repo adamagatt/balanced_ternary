@@ -91,3 +91,24 @@ TEST(Number, BinaryOperations) {
     EXPECT_EQ(num_33 - num_23, BT::Number<8>{"+0+"}); // Difference is 10
     ASSERT_EQ(num_23 * num_33, BT::Number<8>{"+00+0+0"}); // Product is 759
 }
+
+TEST(Number, InPlaceBinaryOperations) {
+    BT::Number<8> num_23{"+0--"}; // 23
+    BT::Number<8> num_33{"++-0"}; // 33
+
+    auto temp = num_23;
+    temp += num_33;
+    EXPECT_EQ(temp, BT::Number<8>{"+-0+-"}); // Sum to 56
+
+    temp = num_23;
+    temp -= num_33;
+    EXPECT_EQ(temp, BT::Number<8>{"-0-"}); // Difference is -10
+    
+    temp = num_33;
+    temp -= num_23;
+    EXPECT_EQ(temp, BT::Number<8>{"+0+"}); // Difference is 10
+    
+    temp = num_23;
+    temp *= num_33;
+    ASSERT_EQ(temp, BT::Number<8>{"+00+0+0"}); // Product is 759
+}

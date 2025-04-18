@@ -154,6 +154,16 @@ public:
     auto operator*(const Number<N>& rhs) const -> Number<N>;
     
     /**
+     * In-place multiplication of this ternary number with another that has
+     * been provided. This may currently result in an overflow or underflow
+     * if the product of the two numbers requires a length that is greater
+     * than the templated size N.
+     * 
+     * @param rhs The number to multiply this number with
+     */
+    auto operator*=(const Number<N>& rhs);
+
+    /**
      * Return the result of left-shifting this number by a specified amount
      * of trit positions. As each trit is explicitly signed this operation
      * is always a signed shift. This has the usual effect of multiplying the
