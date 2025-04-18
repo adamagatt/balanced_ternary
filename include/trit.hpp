@@ -35,7 +35,7 @@ struct SumResult {
 
 /**
  * Convert the character representing of a trit into a Trit enum
- * value. This representation accepts '+' as the +1 trit, '-1' as the
+ * value. This representation accepts '+' as the +1 trit, '-' as the
  * -1 trit and '0' as the zero trit. Any other characters are currently
  * parsed as 0.
  * 
@@ -46,13 +46,13 @@ struct SumResult {
 auto tritFromEncoded(char encoded) -> Trit;
 
 /**
- * Return the opposite of the submitted trit, i.e. '+1' is returned for
- * '-1' and vice versa. The negation of '0' is '0'.
+ * Return the opposite of the submitted trit, i.e. '+' is returned for
+ * '-' and vice versa. The negation of '0' is '0'.
  * 
  * @param trit A trit to find the negation for
  * @return The negation of the submitted trit
  */
-auto negateTrit(const Trit& trit) -> Trit;
+auto negateTrit(Trit trit) -> Trit;
 
 /**
  * A half-adder that returns the sum of two trits. The result is both
@@ -63,7 +63,7 @@ auto negateTrit(const Trit& trit) -> Trit;
  * @param t2 The second trit to add
  * @return The result and carry for adding the two trits
  */
-auto addTrits(const Trit& t1, const Trit& t2) -> SumResult;
+auto addTrits(Trit t1, Trit t2) -> SumResult;
 
 /**
  * A full-adder that sums three trits; usually matching-index trits from
@@ -76,7 +76,7 @@ auto addTrits(const Trit& t1, const Trit& t2) -> SumResult;
  * @param carry A carry trit to also include in the addition 
  * @return The result and carry for adding the three trits
  */
-auto addTrits(const Trit& t1, const Trit& t2, const Trit& carry) -> SumResult;
+auto addTrits(Trit t1, Trit t2, Trit carry) -> SumResult;
 
 }
 

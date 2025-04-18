@@ -15,7 +15,7 @@ auto BT::tritFromEncoded(char encoded) -> Trit {
     }
 }
 
-auto BT::negateTrit(const Trit& trit) -> Trit {
+auto BT::negateTrit(Trit trit) -> Trit {
     switch (trit) {
         case Trit::POS:
             return Trit::NEG;
@@ -26,7 +26,7 @@ auto BT::negateTrit(const Trit& trit) -> Trit {
     return Trit::ZERO;
 }
 
-auto BT::addTrits(const Trit& t1, const Trit& t2) -> SumResult {
+auto BT::addTrits(Trit t1, Trit t2) -> SumResult {
     // If either trit is zero the sum is just the other trit
     if (t1 == Trit::ZERO) {
         return {t2, Trit::ZERO};
@@ -41,7 +41,7 @@ auto BT::addTrits(const Trit& t1, const Trit& t2) -> SumResult {
     }
 }
 
-auto BT::addTrits(const Trit& t1, const Trit& t2, const Trit& carry) -> SumResult {
+auto BT::addTrits(Trit t1, Trit t2, Trit carry) -> SumResult {
     // If any trit is zero we can reduce to the binary sum
     if (t1 == Trit::ZERO) {
         return addTrits(t2, carry);
