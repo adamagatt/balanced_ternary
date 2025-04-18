@@ -22,6 +22,34 @@ auto BT::Number<N>::operator==(const Number<N>& rhs) const -> bool {
 }
 
 template <size_t N>
+auto BT::Number<N>::operator!=(const Number<N>& rhs) const -> bool {
+    return !(value == rhs.value);
+}
+
+template <size_t N>
+auto BT::Number<N>::operator<(const Number<N>& rhs) const -> bool {
+    // Due to Trit enum being backed by appropriate integral values, the
+    // default std::array lexicographical comparison is suitable logic
+    // for comparing entire balanced ternary numbers.
+    return value < rhs.value;
+}
+
+template <size_t N>
+auto BT::Number<N>::operator<=(const Number<N>& rhs) const -> bool {
+    return !(rhs < *this);
+}
+
+template <size_t N>
+auto BT::Number<N>::operator>(const Number<N>& rhs) const -> bool {
+    return rhs < *this;
+}
+
+template <size_t N>
+auto BT::Number<N>::operator>=(const Number<N>& rhs) const -> bool {
+    return !(*this < rhs);
+}
+
+template <size_t N>
 auto BT::Number<N>::operator-() const -> Number<N> {
     Number<N> out;
 

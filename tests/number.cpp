@@ -18,6 +18,36 @@ TEST (Number, UnaryNegation) {
     ASSERT_EQ(-(-num_35), BT::Number<8>{"++0-"}); // Double negation is 35
 }
 
+TEST (Number, Comparisons) {
+    BT::Number<8> num_0{};
+    BT::Number<8> num_17{"+-0-"};
+    BT::Number<8> num_17_copy{"+-0-"};
+    BT::Number<8> num_neg_17{"-+0+"};
+
+    EXPECT_EQ(num_17, num_17_copy);
+
+    EXPECT_NE(num_0, num_17);
+    EXPECT_NE(num_17, num_neg_17);
+
+    EXPECT_LT(num_0, num_17);
+    EXPECT_LT(num_neg_17, num_0);
+    EXPECT_LT(num_neg_17, num_17);
+
+    EXPECT_GT(num_17, num_neg_17);
+    EXPECT_GT(num_0, num_neg_17);
+    EXPECT_GT(num_17, num_0);
+
+    EXPECT_LE(num_0, num_17);
+    EXPECT_LE(num_neg_17, num_0);
+    EXPECT_LE(num_neg_17, num_17);
+    EXPECT_LE(num_17, num_17_copy);
+
+    EXPECT_GE(num_17, num_neg_17);
+    EXPECT_GE(num_0, num_neg_17);
+    EXPECT_GE(num_17, num_0);
+    ASSERT_GE(num_17, num_17_copy);
+}
+
 TEST (Number, LeftShift) {
     BT::Number<8> num_neg_8{"-0+"}; // -8
 

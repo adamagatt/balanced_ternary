@@ -52,6 +52,46 @@ public:
     auto operator==(const Number<N>& rhs) const -> bool;
 
     /**
+     * Determines if the submitted ternary number does not have the same value.
+     * 
+     * @param rhs Another ternary number to compare against.
+     * @return true if the supplied number has a different value, false otherwise
+     */
+    auto operator!=(const Number<N>& rhs) const -> bool;
+
+    /**
+     * Check if this number is less than the provided one
+     * 
+     * @param rhs Another ternary number to compare against
+     * @return true if this number is less than the provided one
+     */
+    auto operator<(const Number<N>& rhs) const -> bool;
+
+    /**
+     * Check if this number is less than or equal to the provided one
+     * 
+     * @param rhs Another ternary number to compare against
+     * @return true if this number is less than or equal to than the provided one
+     */
+    auto operator<=(const Number<N>& rhs) const -> bool;
+
+    /**
+     * Check if this number is greater than the provided one
+     * 
+     * @param rhs Another ternary number to compare against
+     * @return true if this number is greater than the provided one
+     */
+    auto operator>(const Number<N>& rhs) const -> bool;
+
+    /**
+     * Check if this number is greater than or equal to the provided one
+     * 
+     * @param rhs Another ternary number to compare against
+     * @return true if this number is greater than or equal to than the provided one
+     */
+    auto operator>=(const Number<N>& rhs) const -> bool;
+
+    /**
      * Unary negation of the ternary number, where every trit simply has
      * its value flipped.
      * 
