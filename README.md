@@ -6,7 +6,13 @@ Balanced Ternary Calculator by Adam Gatt is licensed under a [Creative Commons A
 
 ---
 
-A calculator for representing integer values and performin operations using the [balanced ternary](https://en.wikipedia.org/wiki/Balanced_ternary) numeric representation system.
+A calculator for representing integer values and performing operations using the [balanced ternary](https://en.wikipedia.org/wiki/Balanced_ternary) numeric representation system. Operations currently supported include:
+* Addition, subtraction, multiplication, integer division
+* Pre- and post- increment and decrement
+* Comparison operators
+* Left shifting and unary negation
+* Conversion to int32_t
+* Printable representation to output stream
 
 Balanced ternary is a positional number system where each digit is a three-value "trit" that can hold a value of -1, 0 or 1. I represent these visually with the symbols `-`, `0` and `+` respectively (other notations use `0` and `1` with `T` representing -1).
 
