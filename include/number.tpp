@@ -5,11 +5,14 @@
 #error __FILE__ should only be included from number.hpp
 #endif
 
-template <size_t N>
-BT::Number<N>::Number() { }
+#include <cstdlib>
+#include <iostream>
 
 template <size_t N>
-BT::Number<N>::Number(std::string_view encoded) {
+constexpr BT::Number<N>::Number() { }
+
+template <size_t N>
+constexpr BT::Number<N>::Number(std::string_view encoded) {
     size_t length = std::min(N, encoded.size());
 
     // Populate lowest N trits with decoded characters
@@ -183,6 +186,44 @@ auto BT::Number<N>::operator*=(const Number<N>& rhs) {
     // array before zeroing it out and perform the shift-and-add in-place
     // on that array.
     *this = (*this * rhs);
+}
+
+template <size_t N>
+auto BT::Number<N>::operator/(const Number<N>& divisor) const -> Number<N> {
+    if (divisor == ZERO) {
+        std::cerr << "Attempt to divide by zero" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+
+    // Integer division implemented with a repeated subtraction approach. We
+    // convert numerator and divisor to positive to perform the division, and
+    // then decide whether to flip the result based on if they originally had
+    // different signs.
+
+    bool numerator_is_negative = (*this) < ZERO;
+    auto abs_remainder = numerator_is_negative
+        ? -(*this)
+        : (*this);
+
+    bool divisor_is_negative = divisor < ZERO;
+    const auto abs_divisor = divisor_is_negative
+        ? -divisor
+        : divisor;
+
+    BT::Number<N> quotient = ZERO;
+    while (abs_remainder >= abs_divisor) {
+        abs_remainder -= abs_divisor;
+        ++quotient;
+    }
+
+    return (numerator_is_negative ^ divisor_is_negative)
+        ? -quotient
+        : quotient;
+}
+
+template <size_t N>
+auto BT::Number<N>::operator/=(const Number<N>& divisor) {
+    *this = (*this / divisor);
 }
 
 template <size_t N>

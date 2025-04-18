@@ -28,7 +28,7 @@ public:
     /**
      * Construct a new Ternary Number, defaulting to a value of zero.
      */
-    Number();
+    constexpr Number();
 
     /**
      * Construct a new Ternary Number with a value provided in the
@@ -41,7 +41,7 @@ public:
      * number with, where '-' represents -1, '+' represents +1 and '0'
      * represents zero.
      */
-    explicit Number(std::string_view encoded);
+    explicit constexpr Number(std::string_view encoded);
 
     /**
      * Determines if the submitted ternary number has the same value.
@@ -196,6 +196,35 @@ public:
     auto operator*=(const Number<N>& rhs);
 
     /**
+     * Calculate the integer division of this ternary number by the supplied
+     * divisor, with the remainder discarded. This implementation rounds negative
+     * results towards zero rather than negative infinity, as the symmetry between
+     * positive and negative is a defining feature of balanced ternary.
+     *
+     * If the divisor is zero then the program will exit with an error mesage. In
+     * future integer division by zero will be handled gracefully with an error
+     * result or exception.
+     * 
+     * @param divisor the number to integer divide this number by
+     * @return the result of integer dividing this number by the supplied divisor
+     */
+    auto operator/(const Number<N>& divisor) const -> Number<N>;
+
+    /**
+     * In-place integer division of this ternary number with the supplied divisor,
+     * with the remainder discarded. This implementation rounds negative results
+     * towards zero rather than negative infinity, as the symmetry between
+     * positive and negative is a defining feature of balanced ternary.
+     *
+     * If the divisor is zero then the program will exit with an error mesage. In
+     * future integer division by zero will be handled gracefully with an error
+     * result or exception.
+     * 
+     * @param divisor the number to integer divide this number by
+     */
+    auto operator/=(const Number<N>& rhs);
+
+    /**
      * Return the result of left-shifting this number by a specified amount
      * of trit positions. As each trit is explicitly signed this operation
      * is always a signed shift. This has the usual effect of multiplying the
@@ -241,6 +270,8 @@ public:
      */
     template <size_t M>
     friend auto operator<<(std::ostream& os, const Number<M>& rhs) -> std::ostream&;
+
+    static constexpr Number<N> ZERO{};
 
 private:
     // A balanced ternary number is a fixed-length sequence of trits. The
