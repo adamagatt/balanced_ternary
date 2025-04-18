@@ -50,6 +50,49 @@ auto BT::Number<N>::operator>=(const Number<N>& rhs) const -> bool {
 }
 
 template <size_t N>
+auto BT::Number<N>::operator++() -> Number<N>& {
+
+    // Assume a carry trit of +1 to add to the least significant trit. Keep performing
+    // additions and propagating carries through the indices until we don't need to
+    // carry anymore or we run out of trit indices. 
+    BT::SumResult result{.result = Trit::ZERO, .carry = Trit::POS};
+    for (auto it = value.rbegin(); result.carry != Trit::ZERO && it != value.rend(); ++it) {
+        result = addTrits(*it, result.carry);
+        *it = result.result;
+    }
+
+    return *this;
+}
+
+template <size_t N>
+auto BT::Number<N>::operator++(int) -> Number<N> {
+    auto pre_increment = *this;
+    ++(*this);
+    return pre_increment;   
+}
+
+template <size_t N>
+auto BT::Number<N>::operator--() -> Number<N>& {
+    // Assume a carry trit of -1 to add to the least significant trit. Keep performing
+    // additions and propagating carries through the indices until we don't need to
+    // carry anymore or we run out of trit indices. 
+    BT::SumResult result{.result = Trit::ZERO, .carry = Trit::NEG};
+    for (auto it = value.rbegin(); result.carry != Trit::ZERO && it != value.rend(); ++it) {
+        result = addTrits(*it, result.carry);
+        *it = result.result;
+    }
+
+    return *this;
+}
+
+template <size_t N>
+auto BT::Number<N>::operator--(int) -> Number<N> {
+    auto pre_decrement = *this;
+    --(*this);
+    return pre_decrement;   
+}
+
+template <size_t N>
 auto BT::Number<N>::operator-() const -> Number<N> {
     Number<N> out;
 

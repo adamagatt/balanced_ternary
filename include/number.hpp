@@ -92,6 +92,38 @@ public:
     auto operator>=(const Number<N>& rhs) const -> bool;
 
     /**
+     * Pre-increment the balanced ternary number, increasing it by one and then
+     * returning the result.
+     * 
+     * @return A reference to this number after it has been increased by one.
+     */
+    auto operator++() -> Number<N>&;
+
+    /**
+     * Post-increment the balanced ternary number, increasing it by one but
+     * returning the value before that increase was applied.
+     * 
+     * @return A copy of this number before it has been increased by one.
+     */
+    auto operator++(int) -> Number<N>;
+
+    /**
+     * Pre-decrement the balanced ternary number, decreasing it by one and then
+     * returning the result.
+     * 
+     * @return A reference to this number after it has been decreased by one.
+     */
+    auto operator--() -> Number<N>&;
+
+    /**
+     * Post-decrement the balanced ternary number, increasing it by one but
+     * returning the value before that decrease was applied.
+     * 
+     * @return A copy of this number before it has been decreased by one.
+     */
+    auto operator--(int) -> Number<N>;
+
+    /**
      * Unary negation of the ternary number, where every trit simply has
      * its value flipped.
      * 
